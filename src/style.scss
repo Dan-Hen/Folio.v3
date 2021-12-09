@@ -28,6 +28,14 @@ body {
   }
 }
 
+canvas{
+  position: fixed;
+  top:0;
+  left: 0;
+  z-index: -1;
+  background: transparent;
+}
+
 header{
   height: calc(100vh - 40px);
   display: flex;
