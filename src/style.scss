@@ -1,11 +1,36 @@
 
+ @font-face {
+  font-family: 'Suisse';
+  src: url('../src/font/SuisseIntl-Book.ttf') format('truetype'),
+       url('../src/font/SuisseIntl-Book.woff') format('woff'),
+       url('../src/font/SuisseIntl-Book.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
-  margin: 0;
-  font-family: Helvetica, sans-serif;
+  margin: 0 auto;
+  max-width: 95%;
+  padding: 20px;
+  background-color: #DEDEDE;
+  color: #000000;
+  font-family: 'Suisse';
+
 
   > div {
-    max-width: 1200px;
     margin: 0 auto;
-    padding: 30px;
   }
+
+  .menu{
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+header{
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
