@@ -26,6 +26,12 @@ body {
     display: flex;
     justify-content: space-between;
   }
+
+
+  //overwrite all svg of the page 
+  svg{
+    width: 25px;
+  }
 }
 
 canvas{
@@ -41,4 +47,10 @@ header{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.header-text {
+  text-align: center;
+  max-width: 80%;
+  margin: 0 auto;
 }

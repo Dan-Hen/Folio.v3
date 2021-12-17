@@ -4,7 +4,7 @@ import * as THREE from 'three';
 
 const scene = new THREE.Scene();
 
-//set the size of the camera. In order : TODO
+//set the size of the camera. In order : field of view, aspect ratio, view frustum
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
 const renderer = new THREE.WebGLRenderer({
@@ -33,3 +33,5 @@ function animate() {
 }
 
 animate()
+
+
