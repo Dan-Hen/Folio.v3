@@ -81,8 +81,8 @@ a:active {
 
 body {
   margin: 0 auto;
-  max-width: 95%;
-  padding: 20px;
+  max-width: 100%;
+  padding: 0;
   background-color: var(--main-bg-color);
   color: var(--primary-color);
   font-family: 'Suisse';
@@ -103,6 +103,12 @@ body {
     fill: var(--secondary-color);
   }
 
+  header, main, footer{
+    max-width: 90%;
+    padding: 20px;
+    margin: 0 auto;
+  }
+
   header{
     height: calc(100vh - 40px);
     display: flex;
@@ -112,7 +118,7 @@ body {
   
   .title{
     text-align: center;
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
   }
   
@@ -188,6 +194,8 @@ main{
 }
 
 footer{
+  position: relative;
+
   .link-container{
     display: flex;
     justify-content: space-between;
@@ -223,6 +231,15 @@ footer{
   margin: 120px 0px 120px 20%;
 }
 
+.right-text{
+  width: 55%;
+  margin-left: 45%;
+}
+
+.left-text{
+  width: 45%;
+}
+
 .slider{
   background: #51453E;
   width: 100%;
@@ -245,6 +262,27 @@ footer{
   min-height: 346px;
   margin: 0 47px 0 47px;
   background: #ABBE9D;
+}
+
+.launcher{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  margin: 5% 0 5% 0;
+
+  .arrow{
+    width: 50px;
+    fill: var(--primary-color);
+  }
+}
+
+.bottom{
+  background: var(--secondary-color);
+  width: 100%;
+  height: 10px;
 }
 
 :root {

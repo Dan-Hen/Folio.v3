@@ -28,7 +28,7 @@ camera.position.setZ(30);
 
 //add mesh / geometry and materials
 const geometry = new THREE.TorusGeometry( 10, 3, 16, 100 )
-const material = new THREE.MeshBasicMaterial ( {color: 0X285082, wireframe: true } );
+const material = new THREE.MeshBasicMaterial ( {color: 0XEC7442, wireframe: true } );
 const torus = new THREE.Mesh ( geometry, material);
 
 //render the scene
@@ -100,19 +100,17 @@ function infiniteSlider() {
   x = document.getElementById('slides').scrollLeft;
 
   if (x < 1){
-    console.log(true)
     slides.scrollTo(2099, 0);
   }
 
   else if (x > 2099) {
-    console.log(false)
     slides.scrollTo(1, 0);
   }
 }
 
 
 // sccs switch
-/* var clicked = false;
+var clicked = false;
 document.getElementById("light").onclick=function(){changeTheme()};
 function changeTheme(){
 if (clicked) {
@@ -128,4 +126,4 @@ else {
     document.querySelector(':root').style.setProperty('--primary-faded', '#2C2C2C');
     clicked = true;
   }
-}*/
+}
