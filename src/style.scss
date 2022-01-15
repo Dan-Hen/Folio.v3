@@ -61,12 +61,12 @@ h3 {
 
 a:link {
   text-decoration: none;
-  color: var(--primary-color);
+  color: var(--primary-faded);
 }
 
 a:visited {
   text-decoration: none;
-  color: var(--primary-color);
+  color: var(--primary-faded);
 }
 
 
@@ -76,7 +76,7 @@ a:hover {
 
 a:active {
   text-decoration: none;
-  color: var(--primary-color);
+  color: var(--primary-faded);
 }
 
 body {
@@ -103,7 +103,7 @@ body {
     fill: var(--secondary-color);
   }
 
-  header, main, footer{
+  header, main, footer, nav{
     max-width: 90%;
     padding: 20px;
     margin: 0 auto;
@@ -126,6 +126,7 @@ body {
     display: flex;
     justify-content: space-between;
     text-align: right;
+    align-items: center;
   }
 }
 
@@ -306,8 +307,8 @@ footer{
     -0.1px 21.9px 24.6px -2.1px hsl(var(--shadow-color) / 0.34),
     -0.1px 32.2px 36.2px -2.5px hsl(var(--shadow-color) / 0.34);
      --main-bg-color: #DEDEDE; 
-     --primary-color: #101010;
-     --primary-faded: #B2B2B2;
+     --primary-color: #000000;
+     --primary-faded: #B5B5B5;
      --secondary-color: #EC7442;
 }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,91 +9,97 @@
   <link rel="stylesheet" href="./src/style.scss">
 </head>
 <canvas id="bg"></canvas>
-<body>
-  <header>
+
+<body id="project" data-barba="wrapper">
+
+  <nav>
     <div class="menu">
       <a href="index.html">
         <h3>
           LÉO CLOT
         </h3>
       </a>
-      <a href="project.html">
+      <a href="index.html">
         <h3>
           HOME
         </h3>
       </a>
     </div>
-    
-    <div class="title">
-        <div class="hero" id="hero">
-            <h1 class="hero-title">
-                M
-            </h1>
-            <h1 class="hero-title">
-                IRAGE
-            </h1>
-        </div> 
-        <div>
-            <h1>
-                The 9th edition  of the mirage festival goes beyond reality.
-            </h1>
-        </div>
-    </div>
+  </nav>
 
-    <div class="info">
-        <h3 >
-           LATE 2021
+  <div class="container" data-barba="container" data-barba-namespace="project">
+    <header>
+      <span></span>
+      <div class="title">
+        <div class="hero" id="hero">
+          <h1 class="hero-title">
+            M
+          </h1>
+          <h1 class="hero-title">
+            IRAGE
+          </h1>
+        </div>
+        <div>
+          <h1>
+            The 9th edition of the mirage festival goes beyond reality.
+          </h1>
+        </div>
+      </div>
+
+      <div class="info">
+        <h3>
+          LATE 2021
         </h3>
         <div class="label">
-            <h3>
-                Music<br>conposition<br>interactive<br>experience
-            </h3>
-            <h3>
-                Blender<br>After effect
-            </h3>
-            <h3>
-                <a href="">github</a>
+          <h3>
+            Music<br>conposition<br>interactive<br>experience
+          </h3>
+          <h3>
+            Blender<br>After effect
+          </h3>
+          <h3>
+            <a href="">github</a>
             </br>
-                <a href="">youtube</a>
-            </h3>
+            <a href="">youtube</a>
+          </h3>
         </div>
-    </div>
-  </header>
-
-  <main>
-    <div class="full-img">
-        <img/>
-    </div>
-    <div class="left-img">
-      <img />
-    </div>
-    <div class="right-text">
-      <h2>Digitize an event and let the art become the center of the experience.Digitize an event and let the art become the center of the experience.</h2>
-    </div>
-    <div class="left-text">
-      <h2>Digitize an event and let the art become the center of the experience.</h2>
-    </div>
-    <div class="right-img">
-        <img />
-    </div>
-    <div class="slider" id="slider">
-      <div class="slides" id="slides" onscroll="myFunction()">
-        <div class="slide">1</div>
-        <div class="slide">2</div>
-        <div class="slide">3</div>
       </div>
-    </div>
-  </main>
+    </header>
+    <main>
+      <div class="full-img">
+        <img />
+      </div>
+      <div class="left-img">
+        <img />
+      </div>
+      <div class="right-text">
+        <h2>Digitize an event and let the art become the center of the experience.Digitize an event and let the art
+          become the center of the experience.</h2>
+      </div>
+      <div class="left-text">
+        <h2>Digitize an event and let the art become the center of the experience.</h2>
+      </div>
+      <div class="right-img">
+        <img />
+      </div>
+      <div class="slider" id="slider">
+        <div class="slides" id="slides" onscroll="myFunction()">
+          <div class="slide">1</div>
+          <div class="slide">2</div>
+          <div class="slide">3</div>
+        </div>
+      </div>
+    </main>
 
-  <div class="launcher">
-    <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 43.41 43.41">
-      <path
-        d="M36.83,56,66.7,26.12l-2.82-2.83L34,53.18A31.24,31.24,0,0,0,35.09,45a30.38,30.38,0,0,0-9-21.65L23.3,26.12a26.55,26.55,0,0,1,7.79,18.93A26.49,26.49,0,0,1,23.3,63.88l2.82,2.83a26.75,26.75,0,0,1,37.76,0l2.82-2.83A30.84,30.84,0,0,0,36.83,56Z"
-        transform="translate(-23.3 -23.29)"
-      />
-    </svg>
-    <h3>SCROLL TO LAUNCH NEXT PROJECT</h3>
-    <h3>Walkman</h3>
+    <div class="launcher">
+      <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 43.41 43.41">
+        <path
+          d="M36.83,56,66.7,26.12l-2.82-2.83L34,53.18A31.24,31.24,0,0,0,35.09,45a30.38,30.38,0,0,0-9-21.65L23.3,26.12a26.55,26.55,0,0,1,7.79,18.93A26.49,26.49,0,0,1,23.3,63.88l2.82,2.83a26.75,26.75,0,0,1,37.76,0l2.82-2.83A30.84,30.84,0,0,0,36.83,56Z"
+          transform="translate(-23.3 -23.29)" />
+      </svg>
+      <h3>SCROLL TO LAUNCH NEXT PROJECT</h3>
+      <h3>Walkman</h3>
+    </div>
   </div>
 
   <footer>
@@ -101,14 +108,22 @@
         2022
       </h3>
       <ul class="social-link">
-        <li><a class="hoverable" href="https://twitter.com/clt_leo" target="_blank"><h3>TWITTER</h3></a></li>
-        <li><a class="hoverable" href="https://www.instagram.com/cltleo/" target="_blank"><h3>INSTAGRAM</h3></a></li>
-        <li><a class="hoverable" href="https://dribbble.com/DanHen" target="_blank"><h3>DRIBBLE</h3></a></li>
-        <li><a class="hoverable" href="https://www.behance.net/DanHen" target="_blank"><h3>BEHANCE</h3></a></li>
+        <li><a class="hoverable" href="https://twitter.com/clt_leo" target="_blank">
+            <h3>TWITTER</h3>
+          </a></li>
+        <li><a class="hoverable" href="https://www.instagram.com/cltleo/" target="_blank">
+            <h3>INSTAGRAM</h3>
+          </a></li>
+        <li><a class="hoverable" href="https://dribbble.com/DanHen" target="_blank">
+            <h3>DRIBBLE</h3>
+          </a></li>
+        <li><a class="hoverable" href="https://www.behance.net/DanHen" target="_blank">
+            <h3>BEHANCE</h3>
+          </a></li>
       </ul>
     </div>
   </footer>
- 
+
   <div class="bottom">
   </div>
   <script src="./src/main.js"></script>
@@ -117,8 +132,9 @@
       var elmnt = document.getElementById("slides");
       var x = elmnt.scrollLeft;
       var y = elmnt.scrollTop;
-      document.getElementById ("demo").innerHTML = "Horizontally: " + x + "px<br>Vertically: " + y + "px";
+      document.getElementById("demo").innerHTML = "Horizontally: " + x + "px<br>Vertically: " + y + "px";
     }
-    </script>
+  </script>
 </body>
+
 </html>

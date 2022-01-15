@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,112 +9,120 @@
   <link rel="stylesheet" href="./src/style.scss">
 </head>
 <canvas id="bg"></canvas>
+
 <body id="home" data-barba="wrapper">
-  <header data-barba="container" data-barba-namespace="home">
+  <nav>
     <div class="menu">
       <a href="index.html">
         <h3>
           LÉO CLOT
         </h3>
       </a>
-      <a href="project.html">
+      <a href="index.html">
         <h3>
           HOME
         </h3>
       </a>
     </div>
-    
-    <div class="title">
-      <h1>
-        3D Designer living in Paris.</br>
-        This is a showcase 
-        <svg id="light" class="hero-light-icon icon-md fadeIn hoverable" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.39 55.81">
-          <rect id="rect1" x="43" y="16.3" width="4" height="57.39" transform="translate(-28.03 -0.94) rotate(-18.05)"/>
-          <rect id="rect2" x="43" y="16.3" width="4" height="57.39" transform="translate(-34.28 37.09) rotate(-53.3)"/>
-          <rect id="rect3" y="25.9" width="57.39" height="4"/>
-          <rect id="rect4" x="16.3" y="43" width="57.39" height="4" transform="translate(-34.27 18.68) rotate(-36.66)"/>
-          <rect id="rect5" x="16.3" y="43" width="57.39" height="4" transform="translate(-28.04 56.73) rotate(-71.94)"/>
-        </svg>
-        of immersive
-        experience 
-        <svg class="icon-md fadeIn hoverable" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.64 42.62">
+  </nav>
+
+  <div class="container" data-barba="container" data-barba-namespace="home">
+    <header>
+      <span></span>
+      <div class="title">
+        <h1>
+          3D Designer living in Paris.</br>
+          This is a showcase
+          <svg id="light" class="hero-light-icon icon-md fadeIn hoverable" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 57.39 55.81">
+            <rect id="rect1" x="43" y="16.3" width="4" height="57.39"
+              transform="translate(-28.03 -0.94) rotate(-18.05)" />
+            <rect id="rect2" x="43" y="16.3" width="4" height="57.39"
+              transform="translate(-34.28 37.09) rotate(-53.3)" />
+            <rect id="rect3" y="25.9" width="57.39" height="4" />
+            <rect id="rect4" x="16.3" y="43" width="57.39" height="4"
+              transform="translate(-34.27 18.68) rotate(-36.66)" />
+            <rect id="rect5" x="16.3" y="43" width="57.39" height="4"
+              transform="translate(-28.04 56.73) rotate(-71.94)" />
+          </svg>
+          of immersive
+          experience
+          <svg class="icon-md fadeIn hoverable" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.64 42.62">
+            <path
+              d="M45.06,66.31h-.12A40.4,40.4,0,0,1,16.18,54.4L19,51.57A36.4,36.4,0,0,0,44.94,62.31h.12A36.4,36.4,0,0,0,71,51.57l2.83,2.83A40.4,40.4,0,0,1,45.06,66.31Z"
+              transform="translate(-16.18 -23.69)" />
+            <path
+              d="M71,38.43A36.4,36.4,0,0,0,45.06,27.69h-.12A36.4,36.4,0,0,0,19,38.43L16.18,35.6A40.4,40.4,0,0,1,44.94,23.69h.12A40.4,40.4,0,0,1,73.82,35.6Z"
+              transform="translate(-16.18 -23.69)" />
+            <circle class="hero-circle-icon" id="circle" cx="28.82" cy="21.95" r="6" />
+          </svg>
+          and interface design.
+        </h1>
+        <h5>
+          AND SOME OLD PROJECTS
+        </h5>
+      </div>
+
+      <div class="info">
+        <svg class="arrow-down fadeIn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 43.41 43.41">
           <path
-            d="M45.06,66.31h-.12A40.4,40.4,0,0,1,16.18,54.4L19,51.57A36.4,36.4,0,0,0,44.94,62.31h.12A36.4,36.4,0,0,0,71,51.57l2.83,2.83A40.4,40.4,0,0,1,45.06,66.31Z"
-            transform="translate(-16.18 -23.69)"
-          />
-          <path
-            d="M71,38.43A36.4,36.4,0,0,0,45.06,27.69h-.12A36.4,36.4,0,0,0,19,38.43L16.18,35.6A40.4,40.4,0,0,1,44.94,23.69h.12A40.4,40.4,0,0,1,73.82,35.6Z"
-            transform="translate(-16.18 -23.69)"
-          />
-          <circle class="hero-circle-icon" id="circle" cx="28.82" cy="21.95" r="6" />
+            d="M36.83,56,66.7,26.12l-2.82-2.83L34,53.18A31.24,31.24,0,0,0,35.09,45a30.38,30.38,0,0,0-9-21.65L23.3,26.12a26.55,26.55,0,0,1,7.79,18.93A26.49,26.49,0,0,1,23.3,63.88l2.82,2.83a26.75,26.75,0,0,1,37.76,0l2.82-2.83A30.84,30.84,0,0,0,36.83,56Z"
+            transform="translate(-23.3 -23.29)" />
         </svg>
-        and interface design.
-      </h1>
-      <h5>
-        AND SOME OLD PROJECTS
-      </h5>
-    </div>
 
-    <div class="info">
-      <svg class="arrow-down fadeIn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 43.41 43.41">
-        <path
-          d="M36.83,56,66.7,26.12l-2.82-2.83L34,53.18A31.24,31.24,0,0,0,35.09,45a30.38,30.38,0,0,0-9-21.65L23.3,26.12a26.55,26.55,0,0,1,7.79,18.93A26.49,26.49,0,0,1,23.3,63.88l2.82,2.83a26.75,26.75,0,0,1,37.76,0l2.82-2.83A30.84,30.84,0,0,0,36.83,56Z"
-          transform="translate(-23.3 -23.29)"
-        />
-      </svg>
+        <h5>
+          25 YO IMMERSIVE
+          </br>
+          DIGITAL DESIGNER
+        </h5>
+      </div>
+    </header>
 
-      <h5>
-        25 YO IMMERSIVE
-      </br>
-        DIGITAL DESIGNER
-      </h5>
-    </div>
-  </header>
-
-  <main>
-    <div class="project-container">
-      <ul>
-        <li>
-          <a href="project.html">
-            <div class="project">
-              <h2>Mirage</h2>
-              <div class="info">
-                <h3>LATE 2021</h3>
-                <h3>SHORT FILM</h3>
-            </div>
-            </div>
-          </a>
-        </li>
-        <div class="cutline"></div>
-        <li>
-          <a href="project.html">
-            <div class="project">
-              <h2>Unnamed</h2>
-              <div class="info">
-                <h3>LATE 2021</h3>
-                <h3>SHORT FILM</h3>
-            </div>
-          </a>
-        </li>
-        <div class="cutline"></div>
-        <li>
-          <a href="project.html">
-            <div class="project">
+    <main data-barba="container" data-barba-namespace="home">
+      <div class="project-container">
+        <ul>
+          <li>
+            <a href="project.html">
+              <div class="project">
+                <h2>Mirage</h2>
+                <div class="info">
+                  <h3>LATE 2021</h3>
+                  <h3>SHORT FILM</h3>
+                </div>
+              </div>
+            </a>
+          </li>
+          <div class="cutline"></div>
+          <li>
+            <a href="project.html">
+              <div class="project">
+                <h2>Unnamed</h2>
+                <div class="info">
+                  <h3>LATE 2021</h3>
+                  <h3>SHORT FILM</h3>
+                </div>
+            </a>
+          </li>
+          <div class="cutline"></div>
+          <li>
+            <a href="project.html">
+              <div class="project">
                 <h2>Beyond Memories</h2>
                 <div class="info">
                   <h3>LATE 2021</h3>
                   <h3>SHORT FILM</h3>
-            </div>
-          </a>
-        </li>
-      </ul>
-    </div>
+                </div>
+            </a>
+          </li>
+        </ul>
+      </div>
 
-    <div class="contact">
-      <h1>Available for freelance project</h1>
-      <h3>leo.clot16  at edu.gobelins.fr</h3>
-    </div>
-  </main>
+      <div class="contact">
+        <h1>Available for freelance project</h1>
+        <h3>leo.clot16 at edu.gobelins.fr</h3>
+      </div>
+    </main>
+  </div>
 
   <footer>
     <div class="link-container">
@@ -121,14 +130,23 @@
         2022
       </h3>
       <ul class="social-link">
-        <li><a class="hoverable" href="https://twitter.com/clt_leo" target="_blank"><h3>TWITTER</h3></a></li>
-        <li><a class="hoverable" href="https://www.instagram.com/cltleo/" target="_blank"><h3>INSTAGRAM</h3></a></li>
-        <li><a class="hoverable" href="https://dribbble.com/DanHen" target="_blank"><h3>DRIBBLE</h3></a></li>
-        <li><a class="hoverable" href="https://www.behance.net/DanHen" target="_blank"><h3>BEHANCE</h3></a></li>
+        <li><a class="hoverable" href="https://twitter.com/clt_leo" target="_blank">
+            <h3>TWITTER</h3>
+          </a></li>
+        <li><a class="hoverable" href="https://www.instagram.com/cltleo/" target="_blank">
+            <h3>INSTAGRAM</h3>
+          </a></li>
+        <li><a class="hoverable" href="https://dribbble.com/DanHen" target="_blank">
+            <h3>DRIBBLE</h3>
+          </a></li>
+        <li><a class="hoverable" href="https://www.behance.net/DanHen" target="_blank">
+            <h3>BEHANCE</h3>
+          </a></li>
       </ul>
     </div>
   </footer>
 
   <script src="./src/main.js"></script>
 </body>
+
 </html>
