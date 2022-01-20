@@ -61,12 +61,12 @@ h3 {
 
 a:link {
   text-decoration: none;
-  color: var(--primary-faded);
+  color: var(--primary-color);
 }
 
 a:visited {
   text-decoration: none;
-  color: var(--primary-faded);
+  color: var(--primary-color);
 }
 
 
@@ -76,7 +76,8 @@ a:hover {
 
 a:active {
   text-decoration: none;
-  color: var(--primary-faded);
+  color: var(--primary-color);
+
 }
 
 body {
@@ -110,7 +111,7 @@ body {
   }
 
   header{
-    height: calc(100vh - 40px);
+    height: calc(100vh - 85px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -170,7 +171,7 @@ canvas{
   }
 
   .cutline{
-    height: 1px;
+    height: 3px;
     width: 100%;
     background-color: var(--primary-faded)
   }
@@ -306,12 +307,16 @@ footer{
     0px 14.4px 16.2px -1.8px hsl(var(--shadow-color) / 0.34),
     -0.1px 21.9px 24.6px -2.1px hsl(var(--shadow-color) / 0.34),
     -0.1px 32.2px 36.2px -2.5px hsl(var(--shadow-color) / 0.34);
-     --main-bg-color: #DEDEDE; 
-     --primary-color: #000000;
-     --primary-faded: #B5B5B5;
+     --main-bg-color: #000000; 
+     --primary-color: #dedede;
+     --primary-faded: #646464;
      --secondary-color: #EC7442;
 }
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.lineParent{
+  overflow: hidden;
 }
