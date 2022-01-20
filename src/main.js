@@ -43,7 +43,7 @@ function animate() {
 animate()
 
 function HomeEnter() {
-
+  
   // sccs switch
   var clicked = false;
   document.getElementById("light").onclick = function () { changeTheme() };
@@ -159,6 +159,7 @@ barba.init({
     {
       namespace: 'project',
       beforeEnter({ next }) {
+        gsap.fromTo('#sliding-text', {x:0}, {x:870, duration: 2, delay: 0.3, ease:'Power4.easeInOut'})
         ProjectLaunch()
       },
       afterEnter({ next }) {
@@ -183,6 +184,15 @@ barba.init({
     {
       namespace: 'home',
       beforeEnter({ next }) {
+        let lineparent = new SplitText(next.container.querySelectorAll('.header-text'), {
+          type: 'lines',
+          linesClass: 'lineParent'
+        })
+        gsap.fromTo('.lineParent', {opacity: 0, y:50},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1})
+        gsap.fromTo('.header-transition', {opacity: 0},{opacity: 1, duration: 0.3, delay: 0.7, ease:'Power3.easeInOut',stagger: 0.1})
+        gsap.fromTo('.arrow-down', {x:100, y:-100}, {x:0, y:0, duration: 1, delay: 2, ease:'Power3.easeInOut' } )
+        gsap.fromTo('.cutline', {width:0}, {width:"100%", duration: 0.3, delay: 1, ease:'Power3.easeInOut',stagger: 0.2})
+
         HomeEnter()
       },
       afterEnter({ next }) {
