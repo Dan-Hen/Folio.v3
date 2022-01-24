@@ -1,12 +1,13 @@
 import '../src/style.scss';
 import barba from '@barba/core';
-import { gsap, TweenMax } from 'gsap/all';
+import { gsap } from 'gsap/all';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitText from './js/SplitText';
 
-gsap.registerPlugin(ScrollTrigger)
-gsap.registerPlugin(ScrollToPlugin)
+
+gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollToPlugin);
 
 import * as THREE from 'three';
 
@@ -160,7 +161,7 @@ barba.init({
       namespace: 'project',
       beforeEnter({ next }) {
         gsap.fromTo('#sliding-text', {x:0}, {x:870, duration: 2, delay: 0.3, ease:'Power4.easeInOut'})
-        ProjectLaunch()
+        
       },
       afterEnter({ next }) {
 
@@ -188,11 +189,18 @@ barba.init({
           type: 'lines',
           linesClass: 'lineParent'
         })
-        gsap.fromTo('.lineParent', {opacity: 0, y:50},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1})
-        gsap.fromTo('.header-transition', {opacity: 0},{opacity: 1, duration: 0.3, delay: 0.7, ease:'Power3.easeInOut',stagger: 0.1})
-        gsap.fromTo('.arrow-down', {x:100, y:-100}, {x:0, y:0, duration: 1, delay: 2, ease:'Power3.easeInOut' } )
-        gsap.fromTo('.cutline', {width:0}, {width:"100%", duration: 0.3, delay: 1, ease:'Power3.easeInOut',stagger: 0.2})
-
+         let linefooter = new SplitText(next.container.querySelectorAll('.footer-text'), {
+          type: 'lines',
+          linesClass: 'lineFooter'
+        })
+        gsap.fromTo('.lineParent', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1, scrollTrigger:'.header-transition'})
+        gsap.fromTo('.header-transition', {opacity: 0},{opacity: 1, duration: 0.3, delay: 0.7, ease:'Power3.easeInOut',stagger: 0.1,scrollTrigger:'.header-transition'})
+        gsap.fromTo('.arrow-down', {x:100, y:-100}, {x:0, y:0, duration: 1, delay: 2, ease:'Power3.easeInOut',scrollTrigger:'.scroll'} )
+        gsap.fromTo('.cutline', {width:0}, {width:"100%", duration: 0.3, delay: 1, ease:'Power3.easeInOut',stagger: 0.2, scrollTrigger:'.scroll'})
+        gsap.fromTo('.lift-up', {opacity: 0, y:10}, {opacity:1, y:0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1, scrollTrigger:'.scroll'})
+        gsap.fromTo('.shift', {opacity: 0, x:10}, {opacity:1, x:0, duration: 0.3, delay: 0.2, ease:'Power3.easeInOut',stagger: 0.1,scrollTrigger:'.footer'})
+        gsap.fromTo('.lineFooter', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1, scrollTrigger: '.footer'})
+        
         HomeEnter()
       },
       afterEnter({ next }) {
