@@ -160,14 +160,53 @@ barba.init({
     {
       namespace: 'project',
       beforeEnter({ next }) {
-        gsap.fromTo('#sliding-text', {x:0}, {x:870, duration: 2, delay: 0.3, ease:'Power4.easeInOut'})
+        ProjectLaunch()
+        let splitLabel = new SplitText(next.container.querySelectorAll('.split-label'), {
+          type: 'lines',
+          linesClass: 'splitLabel'
+        })
+        let splitheader = new SplitText(next.container.querySelectorAll('.project-header-text'), {
+          type: 'lines',
+          linesClass: 'header'
+        })
         
+
+        const SecondSyl = document.getElementsByClassName("hero-title")[1];
+        const WidthSecSyl = getComputedStyle(SecondSyl);
+        const length = parseInt(WidthSecSyl.width,);
+        var largeur = window.innerWidth,
+        pushSize = length - (largeur * 0.2);
+        
+        var herotl = gsap.timeline({paused: true}),
+        play = true;
+        document.getElementById("title").onclick = function () { anim() };
+        
+        function anim() {
+          if (play == true) {
+          herotl.play(),
+          play = false;
+        }
+          else if (play == false) {
+            herotl.reverse(); 
+            play = true;
+          }
+        }
+        
+        herotl.fromTo('#sliding-text', {x:0}, {x:pushSize, duration: 2, ease:'Power4.easeInOut'}, 0)
+        herotl.fromTo('.header', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 1.1)
+        gsap.fromTo('.splitLabel', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1})
+        
+        
+
       },
       afterEnter({ next }) {
 
       },
       beforeLeave({ next }) {
-
+        let triggers = ScrollTrigger.getAll();
+        triggers.forEach( trigger => {			
+          trigger.kill();
+        });
       }
     },
     {
@@ -185,6 +224,7 @@ barba.init({
     {
       namespace: 'home',
       beforeEnter({ next }) {
+  
         let lineparent = new SplitText(next.container.querySelectorAll('.header-text'), {
           type: 'lines',
           linesClass: 'lineParent'
@@ -193,17 +233,36 @@ barba.init({
           type: 'lines',
           linesClass: 'lineFooter'
         })
-        gsap.fromTo('.lineParent', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1, scrollTrigger:'.header-transition'})
-        gsap.fromTo('.header-transition', {opacity: 0},{opacity: 1, duration: 0.3, delay: 0.7, ease:'Power3.easeInOut',stagger: 0.1,scrollTrigger:'.header-transition'})
-        gsap.fromTo('.arrow-down', {x:100, y:-100}, {x:0, y:0, duration: 1, delay: 2, ease:'Power3.easeInOut',scrollTrigger:'.scroll'} )
-        gsap.fromTo('.cutline', {width:0}, {width:"100%", duration: 0.3, delay: 1, ease:'Power3.easeInOut',stagger: 0.2, scrollTrigger:'.scroll'})
-        gsap.fromTo('.lift-up', {opacity: 0, y:10}, {opacity:1, y:0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1, scrollTrigger:'.scroll'})
-        gsap.fromTo('.shift', {opacity: 0, x:10}, {opacity:1, x:0, duration: 0.3, delay: 0.2, ease:'Power3.easeInOut',stagger: 0.1,scrollTrigger:'.footer'})
-        gsap.fromTo('.lineFooter', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1, scrollTrigger: '.footer'})
+
+        var headtl = gsap.timeline({
+          scrollTrigger: {
+            trigger: "header",
+          }
+        });
+        headtl.fromTo('.lineParent', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 0.4)
+        headtl.fromTo('.header-transition', {opacity: 0},{opacity: 1, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 0.7)
+        headtl.fromTo('.arrow-down', {x:100, y:-100}, {x:0, y:0, duration: 1, ease:'Power3.easeInOut'},1 )
+
+        var scrolltl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".scroll",
+          }
+        });
+        scrolltl.fromTo('.cutline', {width:0}, {width:"100%", duration: 0.3, ease:'Power3.easeInOut',stagger: 0.2}, 1)
+        scrolltl.fromTo('.lift-up', {opacity: 0, y:10}, {opacity:1, y:0, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 0.4)
+        scrolltl.fromTo('.shift', {opacity: 0, x:10}, {opacity:1, x:0, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 0.2)
+        
+        var footertl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".contact",
+          }
+        });
+        footertl.fromTo('.lineFooter', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1})
         
         HomeEnter()
+      
       },
-      afterEnter({ next }) {
+      afterEnter({ current }) {
 
       },
       beforeLeave({ next }) {

@@ -20,7 +20,7 @@ form, fieldset, input, textarea, p, blockquote, th, td {
 .hero-title{
   font-size: calc(25rem + 2.7vw);
   font-weight: 100;
-  color: var(--primary-color);
+  color: var(--primary-faded);
   z-index: -1;
 }
 
@@ -116,11 +116,20 @@ body {
     flex-direction: column;
     justify-content: space-between;
   }
+
+  .parentHeader{
+    overflow: hidden;
+  }
+  .project-header-text{
+    width: 90%;
+    margin: 0 auto;
+  }
   
   .title{
     text-align: center;
     width: 80%;
     margin: 0 auto;
+    cursor: pointer;
   }
   
   .info{
@@ -155,6 +164,7 @@ canvas{
   left: 0;
   z-index: -1;
   background: transparent;
+  pointer-events: none;
 }
 
 .project-container{
@@ -307,9 +317,9 @@ footer{
     0px 14.4px 16.2px -1.8px hsl(var(--shadow-color) / 0.34),
     -0.1px 21.9px 24.6px -2.1px hsl(var(--shadow-color) / 0.34),
     -0.1px 32.2px 36.2px -2.5px hsl(var(--shadow-color) / 0.34);
-     --main-bg-color: #000000; 
-     --primary-color: #dedede;
-     --primary-faded: #646464;
+     --main-bg-color: #DEDEDE; 
+     --primary-color: #000000;
+     --primary-faded: #B2B2B2;
      --secondary-color: #EC7442;
 }
 
