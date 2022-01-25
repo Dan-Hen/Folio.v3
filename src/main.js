@@ -44,7 +44,7 @@ function animate() {
 animate()
 
 function HomeEnter() {
-  
+
   // sccs switch
   var clicked = false;
   document.getElementById("light").onclick = function () { changeTheme() };
@@ -149,10 +149,11 @@ barba.init({
     {
       name: 'opacity-transition',
       leave(data) {
-
+        window.scrollTo(0, 0);
+  
       },
       enter(data) {
-
+ 
       }
     }
   ],
@@ -169,50 +170,61 @@ barba.init({
           type: 'lines',
           linesClass: 'header'
         })
-        
+
 
         const SecondSyl = document.getElementsByClassName("hero-title")[1];
         const WidthSecSyl = getComputedStyle(SecondSyl);
         const length = parseInt(WidthSecSyl.width,);
         var largeur = window.innerWidth,
-        pushSize = length - (largeur * 0.2);
-        
-        var herotl = gsap.timeline({paused: true}),
-        play = true;
+          pushSize = length - (largeur * 0.2);
+
+        var herotl = gsap.timeline({ paused: true }),
+          play = true;
         document.getElementById("title").onclick = function () { anim() };
-        
+
         function anim() {
           if (play == true) {
-          herotl.play(),
-          play = false;
-        }
+            herotl.play(),
+              play = false;
+          }
           else if (play == false) {
-            herotl.reverse(); 
+            herotl.reverse();
             play = true;
           }
         }
-        
-        herotl.fromTo('#sliding-text', {x:0}, {x:pushSize, duration: 2, ease:'Power4.easeInOut'}, 0)
-        herotl.fromTo('.header', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 1.1)
-        gsap.fromTo('.splitLabel', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1})
-        
-        
 
+        herotl.fromTo('#sliding-text', { x: 0 }, { x: pushSize, duration: 2, ease: 'Power4.easeInOut' }, 0)
+        herotl.fromTo('.header', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 1.1)
+        gsap.fromTo('.splitLabel', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease: 'Power3.easeInOut', stagger: 0.1 })
+
+        var sections = gsap.utils.toArray('.img-content');
+
+        sections.forEach((section) => {
+
+          gsap.fromTo(section, { y: 100, opacity: 0 }, {
+            y: 0, opacity: 1, duration: 0.3, ease: 'Power3.easeInOut',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top bottom-=100',
+            }
+          });
+        })
+        ScrollTrigger.refresh(true)
       },
       afterEnter({ next }) {
-
+        
       },
       beforeLeave({ next }) {
-        let triggers = ScrollTrigger.getAll();
-        triggers.forEach( trigger => {			
-          trigger.kill();
-        });
+        let Alltrigger = ScrollTrigger.getAll()
+        for (let i = 0; i < Alltrigger.length; i++) {
+        Alltrigger[i].kill(true)
+        }
       }
     },
     {
       namespace: 'menu',
       beforeEnter({ next }) {
-        
+
       },
       afterEnter({ next }) {
 
@@ -224,12 +236,12 @@ barba.init({
     {
       namespace: 'home',
       beforeEnter({ next }) {
-  
+
         let lineparent = new SplitText(next.container.querySelectorAll('.header-text'), {
           type: 'lines',
           linesClass: 'lineParent'
         })
-         let linefooter = new SplitText(next.container.querySelectorAll('.footer-text'), {
+        let linefooter = new SplitText(next.container.querySelectorAll('.footer-text'), {
           type: 'lines',
           linesClass: 'lineFooter'
         })
@@ -239,28 +251,28 @@ barba.init({
             trigger: "header",
           }
         });
-        headtl.fromTo('.lineParent', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 0.4)
-        headtl.fromTo('.header-transition', {opacity: 0},{opacity: 1, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 0.7)
-        headtl.fromTo('.arrow-down', {x:100, y:-100}, {x:0, y:0, duration: 1, ease:'Power3.easeInOut'},1 )
+        headtl.fromTo('.lineParent', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.4)
+        headtl.fromTo('.header-transition', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.7)
+        headtl.fromTo('.arrow-down', { x: 100, y: -100 }, { x: 0, y: 0, duration: 1, ease: 'Power3.easeInOut' }, 1)
 
         var scrolltl = gsap.timeline({
           scrollTrigger: {
             trigger: ".scroll",
           }
         });
-        scrolltl.fromTo('.cutline', {width:0}, {width:"100%", duration: 0.3, ease:'Power3.easeInOut',stagger: 0.2}, 1)
-        scrolltl.fromTo('.lift-up', {opacity: 0, y:10}, {opacity:1, y:0, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 0.4)
-        scrolltl.fromTo('.shift', {opacity: 0, x:10}, {opacity:1, x:0, duration: 0.3, ease:'Power3.easeInOut',stagger: 0.1}, 0.2)
-        
+        scrolltl.fromTo('.cutline', { width: 0 }, { width: "100%", duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.2 }, 1)
+        scrolltl.fromTo('.lift-up', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.4)
+        scrolltl.fromTo('.shift', { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.2)
+
         var footertl = gsap.timeline({
           scrollTrigger: {
             trigger: ".contact",
           }
         });
-        footertl.fromTo('.lineFooter', {opacity: 0, y:10},{opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease:'Power3.easeInOut',stagger: 0.1})
-        
+        footertl.fromTo('.lineFooter', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease: 'Power3.easeInOut', stagger: 0.1 })
+
         HomeEnter()
-      
+
       },
       afterEnter({ current }) {
 
