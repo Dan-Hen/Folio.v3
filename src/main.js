@@ -150,10 +150,10 @@ barba.init({
       name: 'opacity-transition',
       leave(data) {
         window.scrollTo(0, 0);
-  
+
       },
       enter(data) {
- 
+
       }
     }
   ],
@@ -162,11 +162,11 @@ barba.init({
       namespace: 'project',
       beforeEnter({ next }) {
         ProjectLaunch()
-        let splitLabel = new SplitText(next.container.querySelectorAll('.split-label'), {
+        new SplitText(next.container.querySelectorAll('.split-label'), {
           type: 'lines',
           linesClass: 'splitLabel'
         })
-        let splitheader = new SplitText(next.container.querySelectorAll('.project-header-text'), {
+        new SplitText(next.container.querySelectorAll('.project-header-text'), {
           type: 'lines',
           linesClass: 'header'
         })
@@ -196,28 +196,44 @@ barba.init({
         herotl.fromTo('#sliding-text', { x: 0 }, { x: pushSize, duration: 2, ease: 'Power4.easeInOut' }, 0)
         herotl.fromTo('.header', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 1.1)
         gsap.fromTo('.splitLabel', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease: 'Power3.easeInOut', stagger: 0.1 })
+        gsap.fromTo('.slide', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.1, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger: '.slide' })
 
-        var sections = gsap.utils.toArray('.img-content');
 
-        sections.forEach((section) => {
+        var sectionsimg = gsap.utils.toArray('.img-content');
+
+        sectionsimg.forEach((section) => {
 
           gsap.fromTo(section, { y: 100, opacity: 0 }, {
             y: 0, opacity: 1, duration: 0.3, ease: 'Power3.easeInOut',
             scrollTrigger: {
               trigger: section,
               start: 'top bottom-=100',
+              markers: true
             }
           });
         })
+
+        new SplitText(next.container.querySelectorAll('.text1'), {
+          type: 'lines',
+          linesClass: 'text-content1'
+        })
+        new SplitText(next.container.querySelectorAll('.text2'), {
+          type: 'lines',
+          linesClass: 'text-content2'
+        })
+
+        gsap.fromTo('.text-content1', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger:{trigger:'.text-content1', start: 'top bottom-=100'}})
+        gsap.fromTo('.text-content2', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger:{trigger:'.text-content2', start: 'top bottom-=100'}})
+
         ScrollTrigger.refresh(true)
       },
       afterEnter({ next }) {
-        
+
       },
       beforeLeave({ next }) {
         let Alltrigger = ScrollTrigger.getAll()
         for (let i = 0; i < Alltrigger.length; i++) {
-        Alltrigger[i].kill(true)
+          Alltrigger[i].kill(true)
         }
       }
     },
@@ -237,11 +253,11 @@ barba.init({
       namespace: 'home',
       beforeEnter({ next }) {
 
-        let lineparent = new SplitText(next.container.querySelectorAll('.header-text'), {
+        new SplitText(next.container.querySelectorAll('.header-text'), {
           type: 'lines',
           linesClass: 'lineParent'
         })
-        let linefooter = new SplitText(next.container.querySelectorAll('.footer-text'), {
+        new SplitText(next.container.querySelectorAll('.footer-text'), {
           type: 'lines',
           linesClass: 'lineFooter'
         })
