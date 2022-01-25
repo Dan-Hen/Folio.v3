@@ -20,7 +20,7 @@ form, fieldset, input, textarea, p, blockquote, th, td {
 .hero-title{
   font-size: calc(25rem + 2.7vw);
   font-weight: 100;
-  color: var(--primary-faded);
+  color: var(--primary-color);
   z-index: -1;
 }
 
@@ -105,7 +105,7 @@ body {
   }
 
   header, main, footer, nav{
-    max-width: 90%;
+    max-width: 95%;
     padding: 20px;
     margin: 0 auto;
   }
@@ -130,6 +130,10 @@ body {
     width: 80%;
     margin: 0 auto;
     cursor: pointer;
+
+    h3{
+      margin-top: 5%;
+    }
   }
   
   .info{
@@ -181,7 +185,7 @@ canvas{
   }
 
   .cutline{
-    height: 3px;
+    height: 1.5px;
     width: 100%;
     background-color: var(--primary-faded)
   }
@@ -219,8 +223,11 @@ footer{
   }
 }
 
+img{
+  max-width: 100%;
+}
+
 .full-img{
-  height: 600px;
   width: 100%;
   background-color: black;
   box-shadow: var(--shadow-elevation-high);
@@ -254,7 +261,7 @@ footer{
 }
 
 .slider{
-  background: black;
+  background: #51453E;
   width: 100%;
   margin: 0 auto;
   height: 600px;
@@ -276,7 +283,6 @@ footer{
   min-width: 614px;
   min-height: 346px;
   margin: 0 47px 0 47px;
-  background: orange;
 }
 
 .launcher{
@@ -286,18 +292,20 @@ footer{
   justify-content: space-between;
   align-items: center;
   height: 100px;
-  margin: 5% 0 5% 0;
+  margin: 0 0 10% 0;
 
   .arrow{
     width: 50px;
     fill: var(--primary-color);
   }
-}
 
-.bottom{
-  background: var(--secondary-color);
-  width: 100%;
-  height: 10px;
+  .next-project{
+    text-align: center;
+
+    .name{
+      margin-top: 10px;
+    }
+  }
 }
 
 :root {

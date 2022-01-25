@@ -29,7 +29,7 @@ camera.position.setZ(30);
 
 //add mesh / geometry and materials
 const geometry = new THREE.TorusGeometry(10, 3, 16, 100)
-const material = new THREE.MeshBasicMaterial({ color: 0XEC7442, wireframe: true });
+const material = new THREE.MeshBasicMaterial({ color: 0XB2B2B2, wireframe: true });
 const torus = new THREE.Mesh(geometry, material);
 
 //render the scene
@@ -208,7 +208,6 @@ barba.init({
             scrollTrigger: {
               trigger: section,
               start: 'top bottom-=100',
-              markers: true
             }
           });
         })
