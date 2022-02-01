@@ -221,8 +221,12 @@ barba.init({
           linesClass: 'text-content2'
         })
 
-        gsap.fromTo('.text-content1', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger:{trigger:'.text-content1', start: 'top bottom-=100'}})
-        gsap.fromTo('.text-content2', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger:{trigger:'.text-content2', start: 'top bottom-=100'}})
+        gsap.fromTo('.text-content1', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger: { trigger: '.text-content1', start: 'top bottom-=100' } })
+        gsap.fromTo('.text-content2', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger: { trigger: '.text-content2', start: 'top bottom-=100' } })
+
+        gsap.fromTo('.arrow', { rotate:45}, { rotate: -45, duration: 0.8, ease: 'Power3.easeInOut',scrollTrigger: '.launcher'})
+        gsap.fromTo('.arrow', { y:-20}, { y: -10, delay: 0.6, duration:0.4, ease: 'Power3.easeInOut',scrollTrigger: '.launcher'})
+        gsap.fromTo('.name', { opacity: 0, y:10}, { opacity: 0.2, y: 0, delay: 0.6, duration:0.4, ease: 'Power3.easeInOut',scrollTrigger: '.launcher'})
 
         ScrollTrigger.refresh(true)
       },
