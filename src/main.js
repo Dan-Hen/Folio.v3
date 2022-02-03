@@ -84,12 +84,12 @@ window.addEventListener('resize', () => {
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
-  scene.rotation.x += 0.005;
-	scene.rotation.y += 0.01;
+  scene.children[2].children[0].rotation.x += 0.005;
+  scene.children[2].children[0].rotation.y += 0.01;
 }
 animate();
 
-
+console.log(scene)
 
 
 
