@@ -1,55 +1,97 @@
 import '../src/style.scss';
-
 import barba from '@barba/core';
-
 import { gsap } from 'gsap/all';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitText from './js/SplitText';
-
 import { GLTFLoader } from './js/GLTFLoader';
-import MIRAGE from './models/MIRAGE.glb'
+import Mirage from './models/Mirage.glb';
+import Unnamed from './models/Unnamed.glb';
+import Beyond from './models/Beyond.glb';
 import * as THREE from 'three';
+import { Scene } from 'three';
+import { Material } from 'three';
 
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
 
-const loader = new GLTFLoader();
+
 const scene = new THREE.Scene();
-//set the size of the camera. In order : field of view, aspect ratio, view frustum
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-const renderer = new THREE.WebGLRenderer({
-  //set the background of the canvas transparent
-  alpha: true,
-  canvas: document.querySelector('#bg'),
-});
-
-const light = new THREE.AmbientLight(0x404040); // soft white light
-scene.add(light);
-
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(4);
 
-
-loader.load(MIRAGE, function (glb) {
-
-  scene.add(glb.scene);
-
-}, undefined, function (error) {
-
-  console.error(error);
-
+const renderer = new THREE.WebGLRenderer({
+  alpha: true,
+  canvas: document.querySelector('#bg'),
+  antialias: true,
 });
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+var light = new THREE.AmbientLight(0xffffff);
+light.intensity = 0.1;
+scene.add(light);
+
+var pointLight = new THREE.PointLight('white');
+pointLight.position.set(20, 30, 40);
+pointLight.add(new THREE.Mesh(
+  new THREE.SphereGeometry(1, 10, 10),
+  new THREE.MeshBasicMaterial({
+    color: 'white'
+  })));
+scene.add(pointLight);
+
+const roughness = new THREE.TextureLoader().load(require( './texture/mirage-roughness.jpg' ));
+const diffuse = new THREE.TextureLoader().load(require( './texture/mirage-diffuse.png' ));
+
+diffuse.flipY = false
+roughness.flipY = false
+  const bodyMaterial = new THREE.MeshPhongMaterial( {
+    map: diffuse,
+    reflectivity: roughness
+  } );
+
+
+var index = 0;
+var files = [Mirage];
+const loader = new GLTFLoader();
+
+function loadNextFile() {
+  if (index > files.length - 1) return;
+
+  loader.load(files[index], function (glb) {
+    
+    var models = glb.scene.children[ 0 ];
+    models.material = bodyMaterial;
+   
+    scene.add(glb.scene);
+    index++;
+    loadNextFile();
+  });
+}
+loadNextFile();
+
+
+
+window.addEventListener('resize', () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+})
 
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
+  scene.rotation.x += 0.005;
+	scene.rotation.y += 0.01;
 }
 animate();
+
+
+
+
 
 function HomeEnter() {
   // sccs switch
