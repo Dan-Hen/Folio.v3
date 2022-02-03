@@ -1,18 +1,23 @@
 import '../src/style.scss';
+
 import barba from '@barba/core';
+
 import { gsap } from 'gsap/all';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitText from './js/SplitText';
 
+import { GLTFLoader } from './js/GLTFLoader';
+import MIRAGE from './models/MIRAGE.glb'
+import * as THREE from 'three';
+
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
-import * as THREE from 'three';
 
+const loader = new GLTFLoader();
 const scene = new THREE.Scene();
-
 //set the size of the camera. In order : field of view, aspect ratio, view frustum
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -22,29 +27,31 @@ const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
 });
 
-//set the size of canvas by the size of the screen
+const light = new THREE.AmbientLight(0x404040); // soft white light
+scene.add(light);
+
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(30);
+camera.position.setZ(4);
 
-//add mesh / geometry and materials
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100)
-const material = new THREE.MeshBasicMaterial({ color: 0XB2B2B2, wireframe: true });
-const torus = new THREE.Mesh(geometry, material);
 
-//render the scene
-scene.add(torus)
+loader.load(MIRAGE, function (glb) {
 
-//render the scene
+  scene.add(glb.scene);
+
+}, undefined, function (error) {
+
+  console.error(error);
+
+});
+
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
-
-animate()
+animate();
 
 function HomeEnter() {
-
   // sccs switch
   var clicked = false;
   document.getElementById("light").onclick = function () { changeTheme() };
@@ -63,10 +70,6 @@ function HomeEnter() {
       clicked = true;
     }
   }
-}
-
-function HomeScroll() {
-
 }
 
 function ProjectLaunch() {
@@ -135,9 +138,6 @@ function ProjectLaunch() {
       slides.scrollTo(1, 0);
     }
   }
-}
-
-function ProjectScroll() {
 }
 
 function ProjectLeave() {
@@ -224,32 +224,17 @@ barba.init({
         gsap.fromTo('.text-content1', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger: { trigger: '.text-content1', start: 'top bottom-=100' } })
         gsap.fromTo('.text-content2', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger: { trigger: '.text-content2', start: 'top bottom-=100' } })
 
-        gsap.fromTo('.arrow', { rotate:45}, { rotate: -45, duration: 0.8, ease: 'Power3.easeInOut',scrollTrigger: '.launcher'})
-        gsap.fromTo('.arrow', { y:-20}, { y: -10, delay: 0.6, duration:0.4, ease: 'Power3.easeInOut',scrollTrigger: '.launcher'})
-        gsap.fromTo('.name', { opacity: 0, y:10}, { opacity: 0.2, y: 0, delay: 0.6, duration:0.4, ease: 'Power3.easeInOut',scrollTrigger: '.launcher'})
+        gsap.fromTo('.arrow', { rotate: 45 }, { rotate: -45, duration: 0.8, ease: 'Power3.easeInOut', scrollTrigger: '.launcher' })
+        gsap.fromTo('.arrow', { y: -20 }, { y: -10, delay: 0.6, duration: 0.4, ease: 'Power3.easeInOut', scrollTrigger: '.launcher' })
+        gsap.fromTo('.name', { opacity: 0, y: 10 }, { opacity: 0.2, y: 0, delay: 0.6, duration: 0.4, ease: 'Power3.easeInOut', scrollTrigger: '.launcher' })
 
         ScrollTrigger.refresh(true)
-      },
-      afterEnter({ next }) {
-
       },
       beforeLeave({ next }) {
         let Alltrigger = ScrollTrigger.getAll()
         for (let i = 0; i < Alltrigger.length; i++) {
           Alltrigger[i].kill(true)
         }
-      }
-    },
-    {
-      namespace: 'menu',
-      beforeEnter({ next }) {
-
-      },
-      afterEnter({ next }) {
-
-      },
-      beforeLeave({ next }) {
-
       }
     },
     {
@@ -291,9 +276,6 @@ barba.init({
         footertl.fromTo('.lineFooter', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease: 'Power3.easeInOut', stagger: 0.1 })
 
         HomeEnter()
-
-      },
-      afterEnter({ current }) {
 
       },
       beforeLeave({ next }) {
