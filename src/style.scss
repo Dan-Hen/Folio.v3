@@ -77,7 +77,16 @@ a:hover {
 a:active {
   text-decoration: none;
   color: var(--primary-color);
+}
 
+.project-container a {
+  color: #404040;
+  transition: color 600ms ease-in-out;
+}
+
+.project-container a.active {
+  color: white;
+  transition: color 600ms ease-in-out;
 }
 
 body {

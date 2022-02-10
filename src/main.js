@@ -166,6 +166,8 @@ function HomeEnter() {
       clicked = true;
     }
   }
+
+  
 }
 
 function ProjectLaunch() {
@@ -339,6 +341,19 @@ barba.init({
       namespace: 'home',
       beforeEnter({ next }) {
 
+        // menu hover 
+
+  const links = next.container.querySelectorAll('.hover-section')
+  links.forEach((link, i) => {
+    link.addEventListener('mouseenter', () => {
+      link.classList.add('active')
+    })
+
+    link.addEventListener('mouseleave', () => {
+      links.forEach(link => link.classList.remove('active'))
+    })
+  })
+  
         new SplitText(next.container.querySelectorAll('.header-text'), {
           type: 'lines',
           linesClass: 'lineParent'
