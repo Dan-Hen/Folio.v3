@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitText from './js/SplitText';
 import { GLTFLoader } from './js/GLTFLoader';
 import Mirage from './models/Mirage.glb';
-import Unnamed from './models/Unnamed.glb';
+import Helmet from './models/helmet.glb';
 import Beyond from './models/Beyond.glb';
 import * as THREE from 'three';
 import { Scene } from 'three';
@@ -16,11 +16,28 @@ import { Material } from 'three';
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
+// cursor
+const smallBall = document.querySelector('.cursor__ball--small')
+const hoverables = document.querySelectorAll('.hoverable')
 
+document.body.addEventListener('mousemove', onMouseMove)
+for (let i = 0; i < hoverables.length; i++) {
+  hoverables[i].addEventListener('mouseenter', onmouseover)
+  hoverables[i].addEventListener('mouseleave', onmouseout)
+}
 
+function onMouseMove(e) {
+  gsap.to(smallBall, 0.1, {
+    x: e.pageX - scrollX,
+    y: e.pageY - scrollY
+  })
+}
+
+// three.js
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.setZ(4);
+camera.position.set(1, 2, 3);
+camera.lookAt(scene.position);
 
 const renderer = new THREE.WebGLRenderer({
   alpha: true,
@@ -34,7 +51,7 @@ var light = new THREE.AmbientLight(0xffffff);
 light.intensity = 0.1;
 scene.add(light);
 
-var pointLight = new THREE.PointLight('white');
+var pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(20, 30, 40);
 pointLight.add(new THREE.Mesh(
   new THREE.SphereGeometry(1, 10, 10),
@@ -43,15 +60,53 @@ pointLight.add(new THREE.Mesh(
   })));
 scene.add(pointLight);
 
-const roughness = new THREE.TextureLoader().load(require( './texture/mirage-roughness.jpg' ));
-const diffuse = new THREE.TextureLoader().load(require( './texture/mirage-diffuse.png' ));
+
+// moving light
+light = new THREE.PointLight(0xEC7442);
+light.position.set(20, 30, 0);
+scene.add(light);
+
+// Create a circle around the mouse and move it
+// The sphere has opacity 0
+var mouseGeometry = new THREE.SphereGeometry(1, 100, 100);
+var mouseMaterial = new THREE.MeshBasicMaterial({});
+var mouseMesh = new THREE.Mesh(mouseGeometry, mouseMaterial);
+
+mouseMesh.position.set(100, 100, 100);
+scene.add(mouseMesh);
+
+// When the mouse moves, call the given function
+document.addEventListener("mousemove", onMouseMove, false);
+var mouse = {
+  x: 0,
+  y: 0
+};
+// Follows the mouse event
+function onMouseMove(event) {
+  // Update the mouse variable
+  event.preventDefault();
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  // Make the sphere follow the mouse
+  var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+  vector.unproject(camera);
+  var dir = vector.sub(camera.position).normalize();
+  var distance = -camera.position.z / dir.z;
+  var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+  //mouseMesh.position.copy(pos);
+
+  light.position.copy(new THREE.Vector3(pos.x, pos.y, pos.z + 2));
+}
+
+const roughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
+const diffuse = new THREE.TextureLoader().load(require('./texture/mirage-diffuse.png'));
 
 diffuse.flipY = false
 roughness.flipY = false
-  const bodyMaterial = new THREE.MeshPhongMaterial( {
-    map: diffuse,
-    reflectivity: roughness
-  } );
+const bodyMaterial = new THREE.MeshPhongMaterial({
+  map: diffuse,
+});
 
 
 var index = 0;
@@ -62,10 +117,10 @@ function loadNextFile() {
   if (index > files.length - 1) return;
 
   loader.load(files[index], function (glb) {
-    
-    var models = glb.scene.children[ 0 ];
+
+    var models = glb.scene.children[0];
     models.material = bodyMaterial;
-   
+
     scene.add(glb.scene);
     index++;
     loadNextFile();
@@ -84,8 +139,7 @@ window.addEventListener('resize', () => {
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
-  scene.children[2].children[0].rotation.x += 0.005;
-  scene.children[2].children[0].rotation.y += 0.01;
+
 }
 animate();
 
@@ -185,6 +239,8 @@ function ProjectLaunch() {
 function ProjectLeave() {
 }
 
+
+//page animation
 barba.init({
   debug: true,
   transitions: [
