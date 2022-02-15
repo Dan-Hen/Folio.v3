@@ -16,143 +16,125 @@ import { Material } from 'three';
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
-// cursor
-const smallBall = document.querySelector('.cursor__ball--small')
-const hoverables = document.querySelectorAll('.hoverable')
-
-document.body.addEventListener('mousemove', onMouseMove)
-for (let i = 0; i < hoverables.length; i++) {
-  hoverables[i].addEventListener('mouseenter', onmouseover)
-  hoverables[i].addEventListener('mouseleave', onmouseout)
-}
-
-function onMouseMove(e) {
-  gsap.to(smallBall, {
-    x: e.pageX - scrollX,
-    y: e.pageY - scrollY
-  })
-}
-
-// three.js
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(1, 1, 3);
-camera.lookAt(scene.position);
-
-const renderer = new THREE.WebGLRenderer({
-  alpha: true,
-  canvas: document.querySelector('#bg'),
-  antialias: true,
-});
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-
-var pointLight = new THREE.PointLight(0xffffff);
-pointLight.position.set(20, 30, 40);
-pointLight.add(new THREE.Mesh(
-  new THREE.SphereGeometry(1, 10, 10),
-  new THREE.MeshBasicMaterial({
-    color: 'white'
-  })));
-scene.add(pointLight);
-
-// When the mouse moves, call the given function
-document.addEventListener("mousemove", onMouseMove, false);
-var mouse = {
-  x: 0,
-  y: 0,
-  z: 0
-};
-// Follows the mouse event
-function onMouseMove(event) {
-  // Update the mouse variable
-  event.preventDefault();
-  mouse.x = (event.clientX / window.innerWidth) * 0.02 + 1.5;
-  mouse.y = (event.clientY / window.innerHeight) * 0.02 + 1.5;
-  mouse.z = mouse.x * mouse.x
-
-  camera.position.set(mouse.x, mouse.y, mouse.z);
-  camera.lookAt(scene.position);
-}
-
-const roughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
-const diffuse = new THREE.TextureLoader().load(require('./texture/mirage-diffuse.png'));
-const normal = new THREE.TextureLoader().load(require('./texture/mirage-normal.png'));
-const ao = new THREE.TextureLoader().load(require('./texture/mirage-ao.png'));
-
-diffuse.flipY = false
-roughness.flipY = false
-var materials = [
-  new THREE.MeshPhongMaterial({
-    map: diffuse,
-    reflectivity: roughness,
-    aoMap: ao,
-    bumpMap: roughness,
-    bumpScale: 0.005,
-    opacity: 0,
-    depthWrite: true,
-    transparent: true,
-  }),
-  new THREE.MeshPhongMaterial({
-    color: 'black',
-    depthWrite: true,
-    transparent: true,
-    opacity: 0,
-  }),
-  new THREE.MeshPhongMaterial({
-    color: 0x0000ff,
-    transparent: true,
-    depthWrite: true,
-    opacity: 0,
-  })
-];
-
 var index = 0;
-var files = [Mirage, Helmet, Beyond];
-var children = []
-var loader = new GLTFLoader();
+  var files = [Mirage, Helmet, Beyond];
+  var children = []
+  var loader = new GLTFLoader();
 
-function loadNextFile() {
-  if (index > files.length - 1) return;
+function three() {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(1, 1, 3);
+  camera.lookAt(scene.position);
 
-  loader.load(files[index], function (glb) {
-    var model = glb.scene;
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    canvas: document.querySelector('#bg'),
+    antialias: true,
+  });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 
-    glb.scene.traverse(function (child) {
+  var pointLight = new THREE.PointLight(0xffffff);
+  pointLight.position.set(20, 30, 40);
+  pointLight.add(new THREE.Mesh(
+    new THREE.SphereGeometry(1, 10, 10),
+    new THREE.MeshBasicMaterial({
+      color: 'white'
+    })));
+  scene.add(pointLight);
+
+  document.addEventListener("mousemove", onMouseMove, false);
+  var mouse = {
+    x: 0,
+    y: 0,
+    z: 0
+  };
+  function onMouseMove(event) {
+    event.preventDefault();
+    mouse.x = (event.clientX / window.innerWidth) * 0.02 + 1.5;
+    mouse.y = (event.clientY / window.innerHeight) * 0.02 + 1.5;
+    mouse.z = mouse.x * mouse.x
+
+    camera.position.set(mouse.x, mouse.y, mouse.z);
+    camera.lookAt(scene.position);
+  }
+
+  const roughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
+  const diffuse = new THREE.TextureLoader().load(require('./texture/mirage-diffuse.png'));
+  const normal = new THREE.TextureLoader().load(require('./texture/mirage-normal.png'));
+  const ao = new THREE.TextureLoader().load(require('./texture/mirage-ao.png'));
+
+  diffuse.flipY = false
+  roughness.flipY = false
+  var materials = [
+    new THREE.MeshPhongMaterial({
+      map: diffuse,
+      reflectivity: roughness,
+      aoMap: ao,
+      bumpMap: roughness,
+      bumpScale: 0.005,
+      opacity: 0,
+      depthWrite: true,
+      transparent: true,
+    }),
+    new THREE.MeshPhongMaterial({
+      color: 'black',
+      depthWrite: true,
+      transparent: true,
+      opacity: 0,
+    }),
+    new THREE.MeshPhongMaterial({
+      color: 0x0000ff,
+      transparent: true,
+      depthWrite: true,
+      opacity: 0,
+    })
+  ];
+
+  
+
+  function loadNextFile() {
+    if (index > files.length - 1) return;
+
+    loader.load(files[index], function (glb) {
+      var model = glb.scene;
+
+      glb.scene.traverse(function (child) {
+        if (child.isMesh) {
+          children.push(child)
+        }
+      });
+      children[index].material = materials[index];
+
+      scene.add(model);
+      index++;
+      loadNextFile();
+    });
+  }
+  loadNextFile();
+
+  window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  })
+
+  function animate() {
+    requestAnimationFrame(animate);
+    scene.traverse(function (child) {
       if (child.isMesh) {
-        children.push(child)
+        child.rotation.y += Math.PI * 0.00005;
       }
     });
+    renderer.render(scene, camera);
+  }
+  animate();
 
-    children[index].material = materials[index];
-
-    scene.add(model);
-    index++;
-    loadNextFile();
-  });
 }
-loadNextFile();
-
-console.log()
-
-window.addEventListener('resize', () => {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-})
-
-function animate() {
-  requestAnimationFrame(animate);
-  scene.traverse(function (child) {
-    if (child.isMesh) {
-      child.rotation.y += Math.PI * 0.00005;
-    }
-  });
-  renderer.render(scene, camera);
-}
-animate();
 
 function HomeEnter() {
+
   // sccs switch
   var clicked = false;
   document.getElementById("light").onclick = function () { changeTheme() };
@@ -174,7 +156,7 @@ function HomeEnter() {
 }
 
 function ProjectLaunch() {
-
+three()
   // project text length
   const getFontSize = (textLength) => {
     const FirstSyl = document.getElementsByClassName("hero-title")[0];
@@ -238,6 +220,7 @@ function ProjectLaunch() {
     }
   }
 }
+
 function ProjectLeave() {
 }
 
@@ -249,10 +232,8 @@ barba.init({
       name: 'opacity-transition',
       leave(data) {
         window.scrollTo(0, 0);
-
       },
       enter(data) {
-
       }
     }
   ],
@@ -261,15 +242,8 @@ barba.init({
       namespace: 'project',
       beforeEnter({ next }) {
         ProjectLaunch()
-        new SplitText(next.container.querySelectorAll('.split-label'), {
-          type: 'lines',
-          linesClass: 'splitLabel'
-        })
-        new SplitText(next.container.querySelectorAll('.project-header-text'), {
-          type: 'lines',
-          linesClass: 'header'
-        })
-
+        new SplitText(next.container.querySelectorAll('.split-label'), { type: 'lines', linesClass: 'splitLabel' })
+        new SplitText(next.container.querySelectorAll('.project-header-text'), { type: 'lines', linesClass: 'header' })
 
         const SecondSyl = document.getElementsByClassName("hero-title")[1];
         const WidthSecSyl = getComputedStyle(SecondSyl);
@@ -301,24 +275,11 @@ barba.init({
         var sectionsimg = gsap.utils.toArray('.img-content');
 
         sectionsimg.forEach((section) => {
-
-          gsap.fromTo(section, { y: 100, opacity: 0 }, {
-            y: 0, opacity: 1, duration: 0.3, ease: 'Power3.easeInOut',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top bottom-=100',
-            }
-          });
+          gsap.fromTo(section, { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: 'Power3.easeInOut', scrollTrigger: { trigger: section, start: 'top bottom-=100', } });
         })
 
-        new SplitText(next.container.querySelectorAll('.text1'), {
-          type: 'lines',
-          linesClass: 'text-content1'
-        })
-        new SplitText(next.container.querySelectorAll('.text2'), {
-          type: 'lines',
-          linesClass: 'text-content2'
-        })
+        new SplitText(next.container.querySelectorAll('.text1'), { type: 'lines', linesClass: 'text-content1' })
+        new SplitText(next.container.querySelectorAll('.text2'), { type: 'lines', linesClass: 'text-content2' })
 
         gsap.fromTo('.text-content1', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger: { trigger: '.text-content1', start: 'top bottom-=100' } })
         gsap.fromTo('.text-content2', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1, scrollTrigger: { trigger: '.text-content2', start: 'top bottom-=100' } })
@@ -334,14 +295,33 @@ barba.init({
         for (let i = 0; i < Alltrigger.length; i++) {
           Alltrigger[i].kill(true)
         }
+
+        ProjectLeave()
       }
     },
     {
       namespace: 'home',
       beforeEnter({ next }) {
+        new SplitText(next.container.querySelectorAll('.header-text'), { type: 'lines', linesClass: 'lineParent' })
+        new SplitText(next.container.querySelectorAll('.footer-text'), { type: 'lines', linesClass: 'lineFooter' })
 
-        // menu hover 
+        var headtl = gsap.timeline({ scrollTrigger: { trigger: "header", } });
+        headtl.fromTo('.lineParent', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.4)
+        headtl.fromTo('.header-transition', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.7)
+        headtl.fromTo('.arrow-down', { x: 100, y: -100 }, { x: 0, y: 0, duration: 1, ease: 'Power3.easeInOut' }, 1)
 
+        var scrolltl = gsap.timeline({ scrollTrigger: { trigger: ".cutline", } });
+        scrolltl.fromTo('.cutline', { width: 0 }, { width: "100%", duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.2 }, 1)
+        scrolltl.fromTo('.lift-up', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.4)
+        scrolltl.fromTo('.shift', { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.2)
+
+        var footertl = gsap.timeline({ scrollTrigger: { trigger: ".contact", } });
+        footertl.fromTo('.lineFooter', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease: 'Power3.easeInOut', stagger: 0.1 })
+
+        HomeEnter()
+
+      },
+      afterEnter({ next }) {
         const links = next.container.querySelectorAll('.hover-section')
         links.forEach((link, i) => {
           link.addEventListener('mouseenter', () => {
@@ -354,44 +334,6 @@ barba.init({
             gsap.to(children[i].material, { opacity: 0, duration: 0.2, ease: 'Power3.easeInOut' });
           })
         })
-
-
-        new SplitText(next.container.querySelectorAll('.header-text'), {
-          type: 'lines',
-          linesClass: 'lineParent'
-        })
-        new SplitText(next.container.querySelectorAll('.footer-text'), {
-          type: 'lines',
-          linesClass: 'lineFooter'
-        })
-
-        var headtl = gsap.timeline({
-          scrollTrigger: {
-            trigger: "header",
-          }
-        });
-        headtl.fromTo('.lineParent', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.4)
-        headtl.fromTo('.header-transition', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.7)
-        headtl.fromTo('.arrow-down', { x: 100, y: -100 }, { x: 0, y: 0, duration: 1, ease: 'Power3.easeInOut' }, 1)
-
-        var scrolltl = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".cutline",
-          }
-        });
-        scrolltl.fromTo('.cutline', { width: 0 }, { width: "100%", duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.2 }, 1)
-        scrolltl.fromTo('.lift-up', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.4)
-        scrolltl.fromTo('.shift', { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'Power3.easeInOut', stagger: 0.1 }, 0.2)
-
-        var footertl = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".contact",
-          }
-        });
-        footertl.fromTo('.lineFooter', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease: 'Power3.easeInOut', stagger: 0.1 })
-
-        HomeEnter()
-
       },
       beforeLeave({ next }) {
 
