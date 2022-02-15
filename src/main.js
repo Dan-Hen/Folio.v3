@@ -17,121 +17,124 @@ gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
 var index = 0;
-  var files = [Mirage, Helmet, Beyond];
-  var children = []
-  var loader = new GLTFLoader();
+var files = [Mirage, Helmet, Beyond];
+var children = []
+var loader = new GLTFLoader();
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(1, 1, 3);
+camera.lookAt(scene.position);
 
-function three() {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(1, 1, 3);
+const renderer = new THREE.WebGLRenderer({
+  alpha: true,
+  canvas: document.querySelector('#bg'),
+  antialias: true,
+});
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+var pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(20, 30, 40);
+pointLight.add(new THREE.Mesh(
+  new THREE.SphereGeometry(1, 10, 10),
+  new THREE.MeshBasicMaterial({
+    color: 'white'
+  })));
+scene.add(pointLight);
+
+document.addEventListener("mousemove", onMouseMove, false);
+var mouse = {
+  x: 0,
+  y: 0,
+  z: 0
+};
+function onMouseMove(event) {
+  event.preventDefault();
+  mouse.x = (event.clientX / window.innerWidth) * 0.02 + 1.5;
+  mouse.y = (event.clientY / window.innerHeight) * 0.02 + 1.5;
+  mouse.z = mouse.x * mouse.x
+
+  camera.position.set(mouse.x, mouse.y, mouse.z);
   camera.lookAt(scene.position);
+}
 
-  const renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    canvas: document.querySelector('#bg'),
-    antialias: true,
-  });
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight);
+const roughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
+const diffuse = new THREE.TextureLoader().load(require('./texture/mirage-diffuse.png'));
+const normal = new THREE.TextureLoader().load(require('./texture/mirage-normal.png'));
+const ao = new THREE.TextureLoader().load(require('./texture/mirage-ao.png'));
 
-  var pointLight = new THREE.PointLight(0xffffff);
-  pointLight.position.set(20, 30, 40);
-  pointLight.add(new THREE.Mesh(
-    new THREE.SphereGeometry(1, 10, 10),
-    new THREE.MeshBasicMaterial({
-      color: 'white'
-    })));
-  scene.add(pointLight);
-
-  document.addEventListener("mousemove", onMouseMove, false);
-  var mouse = {
-    x: 0,
-    y: 0,
-    z: 0
-  };
-  function onMouseMove(event) {
-    event.preventDefault();
-    mouse.x = (event.clientX / window.innerWidth) * 0.02 + 1.5;
-    mouse.y = (event.clientY / window.innerHeight) * 0.02 + 1.5;
-    mouse.z = mouse.x * mouse.x
-
-    camera.position.set(mouse.x, mouse.y, mouse.z);
-    camera.lookAt(scene.position);
-  }
-
-  const roughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
-  const diffuse = new THREE.TextureLoader().load(require('./texture/mirage-diffuse.png'));
-  const normal = new THREE.TextureLoader().load(require('./texture/mirage-normal.png'));
-  const ao = new THREE.TextureLoader().load(require('./texture/mirage-ao.png'));
-
-  diffuse.flipY = false
-  roughness.flipY = false
-  var materials = [
-    new THREE.MeshPhongMaterial({
-      map: diffuse,
-      reflectivity: roughness,
-      aoMap: ao,
-      bumpMap: roughness,
-      bumpScale: 0.005,
-      opacity: 0,
-      depthWrite: true,
-      transparent: true,
-    }),
-    new THREE.MeshPhongMaterial({
-      color: 'black',
-      depthWrite: true,
-      transparent: true,
-      opacity: 0,
-    }),
-    new THREE.MeshPhongMaterial({
-      color: 0x0000ff,
-      transparent: true,
-      depthWrite: true,
-      opacity: 0,
-    })
-  ];
-
-  
-
-  function loadNextFile() {
-    if (index > files.length - 1) return;
-
-    loader.load(files[index], function (glb) {
-      var model = glb.scene;
-
-      glb.scene.traverse(function (child) {
-        if (child.isMesh) {
-          children.push(child)
-        }
-      });
-      children[index].material = materials[index];
-
-      scene.add(model);
-      index++;
-      loadNextFile();
-    });
-  }
-  loadNextFile();
-
-  window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+diffuse.flipY = false
+roughness.flipY = false
+var materials = [
+  new THREE.MeshPhongMaterial({
+    map: diffuse,
+    reflectivity: roughness,
+    aoMap: ao,
+    bumpMap: roughness,
+    bumpScale: 0.005,
+    opacity: 0,
+    depthWrite: true,
+    transparent: true,
+  }),
+  new THREE.MeshPhongMaterial({
+    color: 'black',
+    depthWrite: true,
+    transparent: true,
+    opacity: 0,
+  }),
+  new THREE.MeshPhongMaterial({
+    color: 0x0000ff,
+    transparent: true,
+    depthWrite: true,
+    opacity: 0,
   })
+];
 
-  function animate() {
-    requestAnimationFrame(animate);
-    scene.traverse(function (child) {
+function loadNextFile() {
+  if (index > files.length - 1) return;
+
+  loader.load(files[index], function (glb) {
+    var model = glb.scene;
+
+    glb.scene.traverse(function (child) {
       if (child.isMesh) {
-        child.rotation.y += Math.PI * 0.00005;
+        children.push(child)
       }
     });
-    renderer.render(scene, camera);
-  }
-  animate();
+    children[index].material = materials[index];
 
+    scene.add(model);
+    index++;
+    loadNextFile();
+  });
 }
+loadNextFile();
+
+window.addEventListener('resize', () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+})
+
+function animate() {
+  requestAnimationFrame(animate);
+  scene.traverse(function (child) {
+    if (child.isMesh) {
+      child.rotation.y += Math.PI * 0.00005;
+    }
+  });
+  renderer.render(scene, camera);
+}
+animate();
+
+window.onload = function() {
+  if (window.location.href.indexOf('project.html') > -1) {
+    console.log(true)
+    gsap.to(children[0].material, { opacity: 1, duration: 0.2, ease: 'Power3.easeInOut' });
+    gsap.to('#bg', {position: 'absolute'})
+  }
+}
+
 
 function HomeEnter() {
 
@@ -156,7 +159,6 @@ function HomeEnter() {
 }
 
 function ProjectLaunch() {
-three()
   // project text length
   const getFontSize = (textLength) => {
     const FirstSyl = document.getElementsByClassName("hero-title")[0];
@@ -234,6 +236,7 @@ barba.init({
         window.scrollTo(0, 0);
       },
       enter(data) {
+
       }
     }
   ],
@@ -242,6 +245,7 @@ barba.init({
       namespace: 'project',
       beforeEnter({ next }) {
         ProjectLaunch()
+        gsap.to('#bg', {position: 'absolute'})
         new SplitText(next.container.querySelectorAll('.split-label'), { type: 'lines', linesClass: 'splitLabel' })
         new SplitText(next.container.querySelectorAll('.project-header-text'), { type: 'lines', linesClass: 'header' })
 
@@ -295,8 +299,12 @@ barba.init({
         for (let i = 0; i < Alltrigger.length; i++) {
           Alltrigger[i].kill(true)
         }
-
+        gsap.to('#bg', {position: 'fixed'})
+        gsap.to(children[0].material, { opacity: 0, duration: 0.2, ease: 'Power3.easeInOut' });
+        gsap.to(children[1].material, { opacity: 0, duration: 0.2, ease: 'Power3.easeInOut' });
+        gsap.to(children[2].material, { opacity: 0, duration: 0.2, ease: 'Power3.easeInOut' });
         ProjectLeave()
+        
       }
     },
     {
@@ -318,6 +326,26 @@ barba.init({
         var footertl = gsap.timeline({ scrollTrigger: { trigger: ".contact", } });
         footertl.fromTo('.lineFooter', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.4, ease: 'Power3.easeInOut', stagger: 0.1 })
 
+        const light = gsap.timeline({
+          onComplete: function () {
+            light.delay(5).restart(true)
+          }
+        })
+        const rects = document.querySelectorAll('svg.hero-light-icon rect')
+
+        const rotationsValues = [
+          { from: 18.05 - 180, to: -18.05 + 180 },
+          { from: 53.3 - 180, to: -53.3 + 180 },
+          { from: 0, to: 180 },
+          { from: 36.66, to: -36.66 + 180 },
+          { from: 71.94, to: -71.94 + 180 }
+        ]
+        rects.forEach((rect, i) => {
+          light.fromTo(rect,
+            { rotation: rotationsValues[i].from, transformOrigin: '50% 50%' },
+            { rotation: rotationsValues[i].to, transformOrigin: '50% 50%', duration: 2, delay: 0.5, ease: 'Power3.easeInOut' }, 0)
+        })
+      
         HomeEnter()
 
       },
