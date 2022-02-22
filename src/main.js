@@ -22,8 +22,7 @@ var children = []
 var loader = new GLTFLoader();
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(1, 1, 3);
-camera.lookAt(scene.position);
+
 
 const renderer = new THREE.WebGLRenderer({
   alpha: true,
@@ -55,7 +54,6 @@ function onMouseMove(event) {
   mouse.z = mouse.x * mouse.x
 
   camera.position.set(mouse.x, mouse.y, mouse.z);
-  camera.lookAt(scene.position);
 }
 
 const roughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
@@ -72,21 +70,22 @@ var materials = [
     aoMap: ao,
     bumpMap: roughness,
     bumpScale: 0.005,
-    opacity: 0,
-    depthWrite: true,
-    transparent: true,
+    opacity: 1,
+    depthWrite: false,
+    transparent: false,
   }),
   new THREE.MeshPhongMaterial({
-    color: 'black',
+    color: 'white',
+    depthWrite: true,
+    reflectivity: roughness,
+    transparent: true,
+    opacity: 1,
     depthWrite: true,
     transparent: true,
-    opacity: 0,
   }),
   new THREE.MeshPhongMaterial({
     color: 0x0000ff,
-    transparent: true,
-    depthWrite: true,
-    opacity: 0,
+    opacity: 1,
   })
 ];
 
@@ -116,6 +115,8 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 })
 
+camera.lookAt(origin) 
+
 function animate() {
   requestAnimationFrame(animate);
   scene.traverse(function (child) {
@@ -129,9 +130,7 @@ animate();
 
 window.onload = function() {
   if (window.location.href.indexOf('project.html') > -1) {
-    console.log(true)
-    gsap.to(children[0].material, { opacity: 1, duration: 0.2, ease: 'Power3.easeInOut' });
-    gsap.to('#bg', {position: 'absolute'})
+    camera.lookAt(children[0].position)
   }
 }
 
@@ -354,12 +353,13 @@ barba.init({
         links.forEach((link, i) => {
           link.addEventListener('mouseenter', () => {
             link.classList.add('active')
-            if (children[i]) gsap.to(children[i].material, { opacity: 1, duration: 0.2, ease: 'Power3.easeInOut' });
+            if (children[i])
+              camera.lookAt(children[i].position); 
           })
 
           link.addEventListener('mouseleave', () => {
             links.forEach(link => link.classList.remove('active'))
-            gsap.to(children[i].material, { opacity: 0, duration: 0.2, ease: 'Power3.easeInOut' });
+            camera.lookAt(origin); 
           })
         })
       },
