@@ -48,12 +48,12 @@ var mouse = {
   z: 0
 };
 function onMouseMove(event) {
-  event.preventDefault();
-  mouse.x = (event.clientX / window.innerWidth) * 0.02 + 1.5;
-  mouse.y = (event.clientY / window.innerHeight) * 0.02 + 1.5;
-  mouse.z = mouse.x * mouse.x
+  //event.preventDefault();
+  //mouse.x = (event.clientX / window.innerWidth) * 0.02 + 1.5;
+  //mouse.y = (event.clientY / window.innerHeight) * 0.02 + 1.5;
+  //mouse.z = mouse.x * mouse.x
 
-  camera.position.set(mouse.x, mouse.y, mouse.z);
+  //camera.position.set(mouse.x, mouse.y, mouse.z);
 }
 
 const roughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
@@ -115,7 +115,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 })
 
-camera.lookAt(origin) 
+camera.lookAt(origin)
 
 function animate() {
   requestAnimationFrame(animate);
@@ -128,9 +128,8 @@ function animate() {
 }
 animate();
 
-window.onload = function() {
+window.onload = function () {
   if (window.location.href.indexOf('project.html') > -1) {
-    camera.lookAt(children[0].position)
   }
 }
 
@@ -244,7 +243,7 @@ barba.init({
       namespace: 'project',
       beforeEnter({ next }) {
         ProjectLaunch()
-        gsap.to('#bg', {position: 'absolute'})
+        gsap.to('#bg', { position: 'absolute' })
         new SplitText(next.container.querySelectorAll('.split-label'), { type: 'lines', linesClass: 'splitLabel' })
         new SplitText(next.container.querySelectorAll('.project-header-text'), { type: 'lines', linesClass: 'header' })
 
@@ -298,12 +297,8 @@ barba.init({
         for (let i = 0; i < Alltrigger.length; i++) {
           Alltrigger[i].kill(true)
         }
-        gsap.to('#bg', {position: 'fixed'})
-        gsap.to(children[0].material, { opacity: 0, duration: 0.2, ease: 'Power3.easeInOut' });
-        gsap.to(children[1].material, { opacity: 0, duration: 0.2, ease: 'Power3.easeInOut' });
-        gsap.to(children[2].material, { opacity: 0, duration: 0.2, ease: 'Power3.easeInOut' });
+        gsap.to('#bg', { position: 'fixed' })
         ProjectLeave()
-        
       }
     },
     {
@@ -344,7 +339,7 @@ barba.init({
             { rotation: rotationsValues[i].from, transformOrigin: '50% 50%' },
             { rotation: rotationsValues[i].to, transformOrigin: '50% 50%', duration: 2, delay: 0.5, ease: 'Power3.easeInOut' }, 0)
         })
-      
+
         HomeEnter()
 
       },
@@ -354,7 +349,15 @@ barba.init({
           link.addEventListener('mouseenter', () => {
             link.classList.add('active')
             if (children[i])
-              camera.lookAt(children[i].position); 
+            var v0 = new THREE.Vector3(0, 0, -3);
+            var v1 = children[i].position;
+          
+            gsap.to(v0, {
+              ...v1, duration: 0.4, ease: "none",
+              onUpdate() {
+                camera.lookAt(v0); 
+              },
+            });
           })
 
           link.addEventListener('mouseleave', () => {
