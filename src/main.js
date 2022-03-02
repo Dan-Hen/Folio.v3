@@ -5,7 +5,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitText from './js/SplitText';
 import { GLTFLoader } from './js/GLTFLoader';
-import Mirage from './models/Mirage.glb';
+import Mirage from './models/mirage.glb';
 import Helmet from './models/helmet.glb';
 import Beyond from './models/Beyond.glb';
 import * as THREE from 'three';
@@ -71,11 +71,9 @@ var materials = [
     bumpMap: roughness,
     bumpScale: 0.005,
     opacity: 1,
-    depthWrite: false,
-    transparent: false,
   }),
   new THREE.MeshPhongMaterial({
-    color: 'white',
+    color: 'black',
     depthWrite: true,
     reflectivity: roughness,
     transparent: true,
@@ -130,6 +128,7 @@ animate();
 
 window.onload = function () {
   if (window.location.href.indexOf('project.html') > -1) {
+    camera.lookAt(children[0].position)
   }
 }
 
@@ -341,28 +340,36 @@ barba.init({
         })
 
         HomeEnter()
-
       },
+
       afterEnter({ next }) {
         const links = next.container.querySelectorAll('.hover-section')
+
         links.forEach((link, i) => {
           link.addEventListener('mouseenter', () => {
+
             link.classList.add('active')
-            if (children[i])
-            var v0 = new THREE.Vector3(0, 0, -3);
-            var v1 = children[i].position;
-          
-            gsap.to(v0, {
-              ...v1, duration: 0.4, ease: "none",
-              onUpdate() {
-                camera.lookAt(v0); 
-              },
-            });
+            
+            var x = localStorage.getItem("Previous")
+            var RestEmpty = children[x].position
+            var CameraTarget = children[i].position
+            var CameraShift = new THREE.Vector3(0.1, 0.1, 0.1);
+
+            gsap.fromTo(CameraShift, { ...RestEmpty },
+              {
+                ...CameraTarget, duration: 0.7, ease: "power4.out",
+                onUpdate() {
+                  camera.lookAt(CameraShift);
+                },
+                onComplete() {
+                  localStorage.setItem( "Previous" , i )
+                  console.log(localStorage.getItem("Previous"))
+                },
+              });
           })
 
           link.addEventListener('mouseleave', () => {
             links.forEach(link => link.classList.remove('active'))
-            camera.lookAt(origin); 
           })
         })
       },
