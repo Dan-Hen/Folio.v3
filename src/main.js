@@ -16,6 +16,9 @@ import { Material } from 'three';
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
+if (localStorage === undefined) {
+  localStorage.setItem( "Previous" , 0 )
+}
 var index = 0;
 var files = [Mirage, Helmet, Beyond];
 var children = []
@@ -73,16 +76,14 @@ var materials = [
     opacity: 1,
   }),
   new THREE.MeshPhongMaterial({
-    color: 'black',
+    color: 0x72E70C,
     depthWrite: true,
     reflectivity: roughness,
-    transparent: true,
     opacity: 1,
-    depthWrite: true,
-    transparent: true,
+
   }),
   new THREE.MeshPhongMaterial({
-    color: 0x0000ff,
+    color: 0x72E70C,
     opacity: 1,
   })
 ];
@@ -221,6 +222,8 @@ function ProjectLaunch() {
 }
 
 function ProjectLeave() {
+
+
 }
 
 //page animation
@@ -292,6 +295,7 @@ barba.init({
         ScrollTrigger.refresh(true)
       },
       beforeLeave({ next }) {
+        
         let Alltrigger = ScrollTrigger.getAll()
         for (let i = 0; i < Alltrigger.length; i++) {
           Alltrigger[i].kill(true)
@@ -357,7 +361,7 @@ barba.init({
 
             gsap.fromTo(CameraShift, { ...RestEmpty },
               {
-                ...CameraTarget, duration: 0.7, ease: "power4.out",
+                ...CameraTarget, duration: 0.4, ease: "power2.inOut",
                 onUpdate() {
                   camera.lookAt(CameraShift);
                 },
@@ -374,7 +378,6 @@ barba.init({
         })
       },
       beforeLeave({ next }) {
-
       }
     }
   ]
