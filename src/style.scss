@@ -175,7 +175,7 @@ canvas{
   position: fixed;
   top:0;
   left: 0;
-  z-index: -1;
+  z-index: 1;
   background: transparent;
   pointer-events: none;
 }
@@ -318,7 +318,7 @@ img{
      --main-bg-color: #000000; 
      --primary-color: #DEDEDE;
      --primary-faded: #333333;
-     --secondary-color: #EC7442;
+     --secondary-color: #B3EA3A;
 }
 
 ::-webkit-scrollbar {
@@ -352,4 +352,18 @@ img{
   32% {
     transform: translate(0px,0px);
   }
+}
+
+#cursor {
+  $size: 2px;
+  
+  display: block;
+  position: absolute;
+  height: $size;
+  width: $size;
+  border-radius: ceil($size / 2);
+  background-color: transparent;
+  
+  top: -100px;
+  left: -100px;
 }

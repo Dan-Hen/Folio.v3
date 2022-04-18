@@ -35,13 +35,16 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+const light = new THREE.PointLight( 0xffffff ); // soft white light
+light.position.set(-10, -20, -4);
+scene.add( light );
+
+const light2 = new THREE.PointLight( 0xB3EA3A ); // soft white light
+light2.position.set(-15, 10, 10);
+scene.add( light2 );
+
 var pointLight = new THREE.PointLight(0xffffff);
-pointLight.position.set(20, 30, 40);
-pointLight.add(new THREE.Mesh(
-  new THREE.SphereGeometry(1, 10, 10),
-  new THREE.MeshBasicMaterial({
-    color: 'white'
-  })));
+pointLight.position.set(10, 20, 40);
 scene.add(pointLight);
 
 document.addEventListener("mousemove", onMouseMove, false);
@@ -56,34 +59,39 @@ function onMouseMove(event) {
   //mouse.y = (event.clientY / window.innerHeight) * 0.02 + 1.5;
   //mouse.z = mouse.x * mouse.x
 
-  //camera.position.set(mouse.x, mouse.y, mouse.z);
+  //pointLight.position.set(mouse.x, mouse.y, mouse.z);
 }
 
-const roughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
-const diffuse = new THREE.TextureLoader().load(require('./texture/mirage-diffuse.png'));
-const normal = new THREE.TextureLoader().load(require('./texture/mirage-normal.png'));
-const ao = new THREE.TextureLoader().load(require('./texture/mirage-ao.png'));
+const Mroughness = new THREE.TextureLoader().load(require('./texture/mirage-roughness.jpg'));
+const Mdiffuse = new THREE.TextureLoader().load(require('./texture/mirage-diffuse.png'));
+const Mao = new THREE.TextureLoader().load(require('./texture/mirage-ao.png'));
 
-diffuse.flipY = false
-roughness.flipY = false
+const Uroughness = new THREE.TextureLoader().load(require('./texture/unnamed-rougness.png'));
+const Udiffuse = new THREE.TextureLoader().load(require('./texture/unnamed-diffuse.png'));
+const Unormal = new THREE.TextureLoader().load(require('./texture/unnamed-normal.png'));
+
+Mdiffuse.flipY = false
+Mroughness.flipY = false
+Udiffuse.flipY = false
+Uroughness.flipY = false
+
 var materials = [
   new THREE.MeshPhongMaterial({
-    map: diffuse,
-    reflectivity: roughness,
-    aoMap: ao,
-    bumpMap: roughness,
+    color: 0x030303,
+    reflectivity: Mroughness,
+    aoMap: Mao,
+    bumpMap: Mroughness,
     bumpScale: 0.005,
     opacity: 1,
   }),
   new THREE.MeshPhongMaterial({
-    color: 0x72E70C,
-    depthWrite: true,
-    reflectivity: roughness,
+    color: 0x030303,
+    reflectivity: Uroughness,
+    normalMap: Unormal,
     opacity: 1,
-
   }),
   new THREE.MeshPhongMaterial({
-    color: 0x72E70C,
+    color: 0x030303,
     opacity: 1,
   })
 ];
@@ -120,7 +128,7 @@ function animate() {
   requestAnimationFrame(animate);
   scene.traverse(function (child) {
     if (child.isMesh) {
-      child.rotation.y += Math.PI * 0.00005;
+      child.rotation.y += Math.PI * 0.00015;
     }
   });
   renderer.render(scene, camera);
@@ -382,3 +390,130 @@ barba.init({
     }
   ]
 })
+
+
+var settings = {
+  trailLength: 100, 
+  minRadius: 50, 
+  sprayDensity: 80,
+  fadeStart: .8
+}
+
+var __meta_settings__ = {
+  disabled: true
+}
+
+
+var cursorPos = {
+  x: -100, 
+  y: -100
+};
+
+function getPos(event) {
+  return {
+    x: event.pageX,
+    y: event.pageY
+  }
+}
+
+document.addEventListener('mousemove', function(e) {
+  cursorPos = getPos(e);
+});
+document.addEventListener('touchmove', function(e) {
+  cursorPos = getPos(e.changedTouches[0]); 
+  e.preventDefault(); 
+});
+
+function goAway(e) {
+  cursorPos.x = -1000;
+  cursorPos.y = -1000;
+}
+
+document.addEventListener('mouseleave', goAway)
+document.addEventListener('click', function(e) {
+});
+
+var settings = {
+  colorChangeSpeedFactor: .1, 
+  trailLength: 100, 
+  diameter: 50, 
+  fadeStart: .8
+}
+var __meta_settings__ = {
+  disabled: true
+}
+
+var cursor = document.getElementById('cursor');
+
+var cursorTrail = JSON.parse(`[{"hue":0,"speed":7.0710678118654755,"x":157,"y":131}]`);
+
+var cursorPos = {
+  x: -100, 
+  y: -100
+};
+
+function getPos(event) {
+  return {
+    x: event.pageX,
+    y: event.pageY
+  }
+}
+
+document.addEventListener('mousemove', function(e) {
+  cursorPos = getPos(e);
+});
+document.addEventListener('touchmove', function(e) {
+  cursorPos = getPos(e.changedTouches[0]); 
+  e.preventDefault(); 
+});
+
+function goAway(e) {
+  cursorPos.x = -1000;
+  cursorPos.y = -1000;
+}
+
+document.addEventListener('mouseleave', goAway)
+document.addEventListener('click', function(e) {
+});
+
+function frame(time) {
+  var hue = (time * settings.colorChangeSpeedFactor) % 360;
+  
+  cursorTrail.push(Object.assign({
+    hue: hue,
+    speed: cursorTrail.length <= 1 ? 0 : ((pos, lastPos) => {
+      // distance between points ~ speed. Might be nice to smooth this by averaging over the last few points
+      return Math.sqrt(Math.pow(lastPos.x - pos.x, 2) + Math.pow(lastPos.y - pos.y, 2));
+    })(cursorPos, cursorTrail[cursorTrail.length - 1])
+  }, cursorPos));
+  
+  // keep popping off the first one
+  // nice little following effect, plus your browser would probably die if everything was kept
+  if (cursorTrail.length > settings.trailLength) {
+    cursorTrail.shift();
+  }
+
+  // follow the mouse!
+  cursor.style.top = `${cursorPos.y}px`;
+  cursor.style.left = `${cursorPos.x}px`;
+  
+  // make it look like the circle is solid  
+  cursor.style.backgroundColor = `hsl(79, 81%, 51%)`;;
+
+  // generate a trail of shadows
+  cursor.style.boxShadow = cursorTrail.map((pos, i) => {
+    const offsetX = pos.x - cursorPos.x;
+    const offsetY = pos.y - cursorPos.y;
+    const age = (settings.trailLength - i) / settings.trailLength;
+    const fadeOut = age < settings.fadeStart ? 0 : Math.pow(4 * (age - settings.fadeStart), 2); 
+    const color = `hsla(79, 81%, 57%, ${1 - fadeOut})`;
+    // return `${offsetX}px ${offsetY}px ${pos.speed + 1}px ${age * settings.diameter + settings.diameter}px ${color}`;
+    return `${offsetX}px ${offsetY}px ${pos.speed + 1}px ${settings.diameter}px ${color}`;
+  }).reverse().join(', ');
+
+  window.requestAnimationFrame(frame);
+}
+
+window.requestAnimationFrame(frame);
+
+console.log('initialized');
